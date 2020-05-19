@@ -7,7 +7,7 @@ import java.util.Properties;
 public class _propMgr {
 	private static _propMgr instance;
 	private static final Object lock = new Object();
-	private static String propertyFilePath = "C:\\Surey\\workspace\\stOptimize\\config.properties";
+	private static String propertyFilePath = "config.properties";
 	private static String site;
 	
 	public static String baseUrl;

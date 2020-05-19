@@ -15,6 +15,7 @@ public class _myMarketPage {
 	
 	protected String loading = "div.loading";
 	protected String dashboard = "td[class*='market-name'] a[href*='";
+	protected String $marketsTable = "div[class*='table']";
 	
 	@FindBy(css="button[class*='add']")
 	public WebElement $addMarket;

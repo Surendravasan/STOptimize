@@ -16,7 +16,7 @@ public class _dashboard extends _dashboardPage {
 	public void getAllValues() {
 		
 		_wait.inVisibleCss(loading, 60);
-		_wait.clickable($preDefBox, 20);
+		_wait.clickable($preDefBox, 60);
 		System.out.println("Verifying Dashboard Values Started");
 
 		for(int i=1; i<=$preDefBoxCount.size(); i++) {

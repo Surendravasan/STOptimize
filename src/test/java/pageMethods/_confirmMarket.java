@@ -17,7 +17,6 @@ public class _confirmMarket extends _confirmMarketPopup {
 		/*	Step 4: Confirm Market  */  
 		_excelReader.updateStoreId(_testData.storeId);
 		
-		_wait.inVisibleCss(loading, 60);
 		_wait.visibleXpath(marketDashboard, 30);
 		String userStoreId = $getUserStoreId.getAttribute("href");
 		_testData.setUserStoreId(Integer.valueOf((userStoreId.substring(userStoreId.lastIndexOf("/")+1))));

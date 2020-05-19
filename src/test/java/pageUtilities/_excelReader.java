@@ -14,7 +14,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 public class _excelReader {
 	
 	
-	static String filePath = "C:\\Surey\\workspace\\stOptimize\\src\\test\\java\\testInput\\storesList.xls";
+	static String filePath = "test-input/storesList.xls";
 	public static HashMap<String, String> exStore;
 	public static FileInputStream fis;
 	public static FileOutputStream fos;

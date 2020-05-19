@@ -20,16 +20,16 @@ public class _myMarket extends _myMarketPage {
 			
 		}
 		
-		_wait.clickable($addMarket, 30);
+		_wait.clickable($addMarket, 60);
 		_actions.click($addMarket);
 		
 	}
 	
 	public void gotoDashboard(int userStore) {
-		_wait.inVisibleCss(loading, 30);
-		_wait.clickable($addMarket, 20);
+		_wait.inVisibleCss(loading, 60);
+		_wait.visibleCss($marketsTable, 60);
 		_actions.click($dashboardLink(_browser.driver, userStore));
-		_wait.inVisibleCss(loading, 30);
+		_wait.inVisibleCss(loading, 60);
 	}
 	
 }

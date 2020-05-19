@@ -26,7 +26,7 @@ public class _smokeTestsExcel extends _browser {
 		
 		_signIn signIn = new _signIn();
 		signIn.login();
-	}
+	}  
 	
 	@Test(priority=1)
 	public void addMarket() {
