@@ -3,7 +3,7 @@
 <suite name="Suite">
   <test name="Test">
     <classes>
-      <class name="tests._testClass1"/>
+      <class name="tests._smokeTestsExcel"/>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->
