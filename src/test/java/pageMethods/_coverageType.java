@@ -2,7 +2,7 @@ package pageMethods;
 
 import objRepository._coverageTypePopup;
 import pageUtilities._actions;
-import pageUtilities._browser;
+import pageUtilities._base;
 import pageUtilities._randGen;
 import pageUtilities._testData;
 import pageUtilities._wait;
@@ -18,7 +18,7 @@ public class _coverageType extends _coverageTypePopup {
 		
 		if(radius!=0) {
 			if(radius!=10) {
-				_actions.click($radius(_browser.driver, radius));
+				_actions.click($radius(_base.driver, radius));
 				_wait.inVisibleCss(loading, 20);
 			}
 			_actions.click($saveCoverage);
@@ -34,7 +34,7 @@ public class _coverageType extends _coverageTypePopup {
 		_wait.inVisibleCss(loading, 20);
 		int i = _randGen.getRandNumber($sliderPoints.size());
 		if (i!=10) {
-			_actions.click($selectMiles(_browser.driver, i));
+			_actions.click($selectMiles(_base.driver, i));
 			_wait.inVisibleCss(loading, 20);
 		}
 		_testData.setRadius(i);

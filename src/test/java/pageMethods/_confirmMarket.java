@@ -1,7 +1,10 @@
 package pageMethods	;  
 
+import com.aventstack.extentreports.Status;
+
 import objRepository._confirmMarketPopup;
 import pageUtilities._actions;
+import pageUtilities._base;
 import pageUtilities._excelReader;
 import pageUtilities._testData;
 import pageUtilities._wait;
@@ -10,6 +13,7 @@ public class _confirmMarket extends _confirmMarketPopup {
 	
 	public _confirmMarket() {
 		super();
+		_base.logger = _base.report.createTest("Store Details");
 	}
 	
 	public void confirmMarket() {
@@ -22,14 +26,14 @@ public class _confirmMarket extends _confirmMarketPopup {
 		_testData.setUserStoreId(Integer.valueOf((userStoreId.substring(userStoreId.lastIndexOf("/")+1))));
 		_actions.click($goToMyMarkets);
 		
-		System.out.println("Market Confirm Success");
-		System.out.println("-------------------------");
-		System.out.println("Store Details:");
-		System.out.println(_testData.storeName);	
-		System.out.println(_testData.address+", "+_testData.city+", "+_testData.state+", "+_testData.zipcode);
-		System.out.println("Coverage: "+_testData.radius+" mile radius");
-		System.out.println("UserStoreID: "+_testData.userStoreId);
-		System.out.println("-------------------------");
+//		System.out.println("Market Confirm Success");
+//		System.out.println("-------------------------");
+//		_base.logger.log(Status.INFO, "Store Details:");
+		_base.logger.log(Status.INFO, _testData.storeName);	
+		_base.logger.log(Status.INFO, _testData.address+", "+_testData.city+", "+_testData.state+" "+_testData.zipcode);
+		_base.logger.log(Status.INFO, "Coverage: "+_testData.radius+" mile radius");
+		_base.logger.log(Status.INFO, "UserStoreID: "+_testData.userStoreId);
+//		System.out.println("-------------------------");
 	}
 	
 }

@@ -7,8 +7,7 @@ public class _dateTime {
 	
 	public static String getDateTime() {
 		Date thisDate = new Date();
-		SimpleDateFormat dateForm = new SimpleDateFormat("dd/MM HH:mm");
+		SimpleDateFormat dateForm = new SimpleDateFormat("ddMM'T'HHmmss");
 		return dateForm.format(thisDate);
 	}
-
 }

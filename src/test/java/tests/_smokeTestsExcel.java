@@ -9,17 +9,17 @@ import pageMethods._dashboard;
 import pageMethods._myMarket;
 import pageMethods._reviewCoverage;
 import pageMethods._signIn;
-import pageUtilities._browser;
+import pageUtilities._base;
 import pageUtilities._dbConn;
 import pageUtilities._excelReader;
 import pageUtilities._propMgr;
 import pageUtilities._testData;
 
-public class _smokeTestsExcel extends _browser {
+public class _smokeTestsExcel extends _base {
 	
 	@BeforeTest
 	public void login()  {
-		_propMgr.getInstance();
+		_propMgr.getInstance(); 
 		_dbConn.getInstance();
 		_excelReader.openExcel();
 		_excelReader.getStore();

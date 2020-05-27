@@ -9,7 +9,7 @@ import org.openqa.selenium.WebElement;
 
 import objRepository._addAddressPopup;
 import pageUtilities._actions;
-import pageUtilities._browser;
+import pageUtilities._base;
 import pageUtilities._dateTime;
 import pageUtilities._dbConn;
 import pageUtilities._excelReader;
@@ -45,7 +45,7 @@ public class _addAddress extends _addAddressPopup {
 			
 			if((_testData.regId)!=3) {
 				state = map.get("state");
-				List<WebElement> options = _browser.driver.findElements(By.xpath("//select[@name='state']/option"));
+				List<WebElement> options = _base.driver.findElements(By.xpath("//select[@name='state']/option"));
 
 				for (WebElement option : options) {
 					String value = option.getAttribute("value");
@@ -67,8 +67,8 @@ public class _addAddress extends _addAddressPopup {
 		
 		_testData.setStoreId(Integer.valueOf(map.get("storeid")));
 		_testData.setStoreName(storeName);
-		System.out.println("-------------------------");
-		System.out.println("Add address Success");
+//		System.out.println("-------------------------");
+//		System.out.println("Add address Success");
 		
 	}
 

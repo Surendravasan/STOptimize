@@ -5,12 +5,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import pageUtilities._browser;
+import pageUtilities._base;
 
 public class _myMarketPage {
 	
 	public _myMarketPage() {
-		PageFactory.initElements(_browser.driver, this);
+		PageFactory.initElements(_base.driver, this);
 	}
 	
 	protected String loading = "div.loading";
@@ -24,6 +24,7 @@ public class _myMarketPage {
 	public WebElement $unitName;
 	
 	public WebElement $dashboardLink(WebDriver driver, int userStoreId) {
+		System.out.println("pageFactory");
 		return driver.findElement(By.cssSelector("td[class*='market-name'] a[href*='"+userStoreId+"'"));
 	}
 }

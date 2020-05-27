@@ -19,6 +19,6 @@ public class _reviewCoverage extends _reviewCoveragePopup {
 		_wait.clickable($saveRevCoverage, 10);
 		_actions.click($saveRevCoverage);
 		_wait.inVisibleCss(loading, 60);
-		System.out.println("Review Coverage Success");
+//		System.out.println("Review Coverage Success");
 	}
 }

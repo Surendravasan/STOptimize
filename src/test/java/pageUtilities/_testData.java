@@ -58,10 +58,12 @@ public class _testData {
 		zipcode = ab.get("zipcode");
 		radius = Integer.valueOf(ab.get("radius"));
 		ab.put("regid", "");
-		TreeSet<Integer> regid = new TreeSet<Integer>();
-		regid = _dbConn.getValue("select regionid from stores where storeid = "+storeId+" and storemodflag!=3");
-		String regionid = String.valueOf(regid.first());
-		regId = Integer.valueOf(regionid);
+//		TreeSet<Integer> regid = new TreeSet<Integer>();
+//		regid = _dbConn.getValue("select regionid from stores where storeid = "+storeId+" and storemodflag!=3");
+//		String regionid = String.valueOf(regid.first());
+//		String s = String.valueOf(_dbConn.getValue("select regionid from stores where storeid = "+storeId+" and storemodflag!=3"));
+//		regId = Integer.valueOf(s);
+		regId = _dbConn.getIntValue("select regionid from stores where storeid = "+storeId+" and storemodflag!=3");
 	}
 
 }

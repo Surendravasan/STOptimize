@@ -5,12 +5,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import pageUtilities._browser;
+import pageUtilities._base;
 
 public class _addAddressPopup {
 	
 	public _addAddressPopup() {
-		PageFactory.initElements(_browser.driver, this);
+		PageFactory.initElements(_base.driver, this);
 	}
 	
 	protected String loading = "div.loading";

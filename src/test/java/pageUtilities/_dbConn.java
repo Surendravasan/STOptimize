@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.TreeSet;
 
@@ -113,10 +114,10 @@ public class _dbConn {
 		TreeSet<Integer> ts = new TreeSet<Integer>();
 		try {
 			st = con.createStatement();
-			String selectquery = query;
+//			String selectquery = query;
 		
 			//Executing the SQL Query and store the results in ResultSet
-			ResultSet rs = st.executeQuery(selectquery);
+			ResultSet rs = st.executeQuery(query);
 			//While loop to iterate through all data and print results
 			while(rs.next()) {
 				ts.add(rs.getInt(1));
@@ -126,4 +127,62 @@ public class _dbConn {
 		}
 		return ts;
 	}
+	
+	public static Date getDate(String query) {
+		Date d = null;
+		try {
+			st = con.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			while(rs.next()) {
+				d = rs.getDate(1);
+			}
+		} catch (Exception e) {
+			System.out.println("getSingleValue: Database Connection Failed "+e);
+		}
+		return d;
+	}
+	
+	public static int getIntValue(String query) {
+		int value = 0;
+		try {
+			_dbConn.st = _dbConn.con.createStatement();
+			ResultSet rs = _dbConn.st.executeQuery(query);
+			while(rs.next()) {
+				value = rs.getInt(1);
+			}
+		} catch (Exception e) {
+			System.out.println("getSingleValue: Database Connection Failed "+e);
+		}
+		return value;
+	}
+	
+	public static Float getFloatValue(String query) {
+		Float db = null;
+		try {
+			_dbConn.st = _dbConn.con.createStatement();
+			ResultSet rs = _dbConn.st.executeQuery(query);
+			while(rs.next()) {
+				db = rs.getFloat(1);
+			}
+		} catch (Exception e) {
+			System.out.println("getSingleValue: Database Connection Failed "+e);
+		}
+		return db;
+	}
+	
+	
+	public static String getStringValue(String query) {
+		String db = null;
+		try {
+			_dbConn.st = _dbConn.con.createStatement();
+			ResultSet rs = _dbConn.st.executeQuery(query);
+			while(rs.next()) {
+				db = rs.getString(1);
+			}
+		} catch (Exception e) {
+			System.out.println("getSingleValue: Database Connection Failed "+e);
+		}
+		return db;
+	}
+	
 }
