@@ -1,5 +1,11 @@
 package tests;
 
+import java.math.BigDecimal;
+import java.sql.SQLException;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
 import org.testng.annotations.*;
 
 import pageMethods._addAddress;
@@ -8,13 +14,27 @@ import pageMethods._coverageType;
 import pageMethods._myMarket;
 import pageMethods._reviewCoverage;
 import pageMethods._signIn;
-import pageUtilities._browser;
+import pageUtilities._dbConn;
 import pageUtilities._propMgr;
 import pageUtilities._testData;
 
-public class _smokeTests extends _browser {
+public class _smokeTests {
 	
-	@BeforeTest
+	public static WebDriver driver;
+
+	@Test
+	public void man() {
+		String uiText = "10.10";
+		String header = "Current";
+		if((!uiText.equals("N/A") && !header.contains("Promotions"))) {
+			BigDecimal number = new BigDecimal(uiText);  
+			uiText = number.stripTrailingZeros().toPlainString();
+		}
+		System.out.println(uiText);
+		}
+	
+			
+	//@BeforeTest
 	@Parameters({"region"})
 	public void login(@Optional("US") String region)  {
 		_propMgr.getInstance();
@@ -23,7 +43,7 @@ public class _smokeTests extends _browser {
 		signIn.login();
 	}
 	
-	@Test(priority=1)
+	//@Test(priority=1)
 	public void addMarket() {
 		_myMarket addMarket = new _myMarket();
 		addMarket.addMarket();
@@ -44,4 +64,5 @@ public class _smokeTests extends _browser {
 //		System.out.println(_testData.address);
 		System.out.println(_testData.userStoreId);
 	}
+	
 }
