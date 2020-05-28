@@ -20,7 +20,6 @@ public class _base {
     public static ExtentReports report;
     public static ExtentTest logger;
 	
-	
 	@BeforeTest
 	public void openBrowser() {
 		htmlReporter = new ExtentHtmlReporter(System.getProperty("user.dir") +"/target/StorTrackReport.html");
