@@ -24,7 +24,6 @@ public class _myMarketPage {
 	public WebElement $unitName;
 	
 	public WebElement $dashboardLink(WebDriver driver, int userStoreId) {
-		System.out.println("pageFactory");
 		return driver.findElement(By.cssSelector("td[class*='market-name'] a[href*='"+userStoreId+"'"));
 	}
 }

@@ -9,7 +9,6 @@ import pageUtilities._base;
 import pageUtilities._dbConn;
 import pageUtilities._queries;
 import pageUtilities._wait;
-import tests._testClass1;
 
 public class _dashboard extends _dashboardPage {
 	

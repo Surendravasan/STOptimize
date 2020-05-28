@@ -1,20 +1,14 @@
 package tests;
 
 import java.math.BigDecimal;
-import java.sql.SQLException;
-
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.Assert;
 import org.testng.annotations.*;
-
 import pageMethods._addAddress;
 import pageMethods._confirmMarket;
 import pageMethods._coverageType;
 import pageMethods._myMarket;
 import pageMethods._reviewCoverage;
 import pageMethods._signIn;
-import pageUtilities._dbConn;
 import pageUtilities._propMgr;
 import pageUtilities._testData;
 

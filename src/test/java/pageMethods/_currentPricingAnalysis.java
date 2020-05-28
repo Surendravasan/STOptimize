@@ -1,8 +1,6 @@
 package pageMethods;  
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.TreeSet;
 import org.openqa.selenium.By;
 import objRepository._currentPricingAnalysisPage;
 import pageUtilities._base;
@@ -10,7 +8,6 @@ import pageUtilities._dbConn;
 import pageUtilities._queries;
 import pageUtilities._testData;
 import pageUtilities._wait;
-import tests._testClass1;
 
 public class _currentPricingAnalysis extends _currentPricingAnalysisPage {
 	
@@ -120,7 +117,7 @@ public class _currentPricingAnalysis extends _currentPricingAnalysisPage {
 						break;
 						
 					case 6:
-						uiValue = _base.driver.findElement(By.xpath("//table[contains(@class,'market-table')]/tbody/tr["+i+"]/td["+j+"]")).getText();
+						uiValue = (_base.driver.findElement(By.xpath("//table[contains(@class,'market-table')]/tbody/tr["+i+"]/td["+j+"]")).getText()).replace("No specials", "");
 						dbValue = _dbConn.getStringValue(_queries.promotions(storeId, unitName)); //to add for RV
 						header = "Promotions";
 						break;

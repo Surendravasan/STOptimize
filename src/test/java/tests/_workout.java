@@ -1,10 +1,7 @@
  package tests;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.*;
-
 import pageMethods._currentPricingAnalysis;
 import pageMethods._myMarket;
 import pageMethods._signIn;
@@ -12,7 +9,6 @@ import pageUtilities._base;
 import pageUtilities._dbConn;
 import pageUtilities._excelReader;
 import pageUtilities._propMgr;
-import pageUtilities._testData;
 import pageUtilities._wait;
 
 
@@ -32,7 +28,7 @@ public class _workout extends _base {
 	public void dashboard() {
 		
 		_myMarket obj1 = new _myMarket();
-		obj1.gotoDashboard(145895);
+		obj1.gotoDashboard(146019);
 		
 //		_wait.inVisibleCss("div.loading", 60);
 //		
@@ -43,7 +39,7 @@ public class _workout extends _base {
 //		_myMarket my = new _myMarket();
 //		my.gotoDashboard(_testData.userStoreId);
 		
-		_base.driver.findElement(By.xpath("//span[text()='5x5 CC']//ancestor::div[@class='drag-view']//div[@class='view-Details']//a")).click();
+		_base.driver.findElement(By.xpath("//span[text()='5x5 Reg']//ancestor::div[@class='drag-view']//div[@class='view-Details']//a")).click();
 		_wait.inVisibleCss("div.loading", 60);
 		
 		_currentPricingAnalysis cp = new _currentPricingAnalysis();
