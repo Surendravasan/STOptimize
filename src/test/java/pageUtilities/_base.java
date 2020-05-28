@@ -23,7 +23,7 @@ public class _base {
 	
 	@BeforeTest
 	public void openBrowser() {
-		htmlReporter = new ExtentHtmlReporter(System.getProperty("user.dir") +"/test-output/StorTrackReport.html");
+		htmlReporter = new ExtentHtmlReporter(System.getProperty("user.dir") +"/target/StorTrackReport.html");
         report = new ExtentReports();
         report.attachReporter(htmlReporter);
          
