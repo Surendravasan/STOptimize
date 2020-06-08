@@ -57,7 +57,7 @@ public class _testData {
 		zipcode = ab.get("zipcode");
 		radius = Integer.valueOf(ab.get("radius"));
 		ab.put("regid", "");
-		regId = _dbConn.getIntValue("select regionid from stores where storeid = "+storeId+" and storemodflag!=3");
+		regId = _databaseUtils.getIntValue("select regionid from stores where storeid = "+storeId+" and storemodflag!=3");
 	}
 
 }

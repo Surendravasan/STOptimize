@@ -1,6 +1,8 @@
 package objRepository;
 
 import java.util.List;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -13,32 +15,32 @@ public class _addAddressPopup {
 		PageFactory.initElements(_base.driver, this);
 	}
 	
-	protected String loading = "div.loading";
+	protected By loader = By.cssSelector("div.loading");
 	protected String state = "//select[@name='state']/option";
 	
 	@FindBy(name="marketName")
-	public WebElement $marketName;
+	protected WebElement $marketName;
 	
 	@FindBy(name="addressLine1")
-	public WebElement $addressLine1;
+	protected WebElement $addressLine1;
 	
 	@FindBy(name="city")
-	public WebElement $city;
+	protected WebElement $city;
 	
 	@FindBy(xpath="//select[@name='state']/option")
-	public List<WebElement> $state;
+	protected List<WebElement> $state;
 	
 	@FindBy(name="zipcode")
-	public WebElement $zipCode;
+	protected WebElement $zipCode;
 	
 	@FindBy(css="button[type='submit']")
-	public WebElement $saveAddress;
+	protected WebElement $saveAddress;
 	
 	@FindBy(xpath="//h2[text()='Address not found']")
-	public List<WebElement> $addrNotFound;
+	protected List<WebElement> $addrNotFound;
 	
 	@FindBy(xpath="//h2[text()='Address not found']/../../button")
-	public WebElement $addrNotFoundX;
+	protected WebElement $addrNotFoundX;
 	
 
 }

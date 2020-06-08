@@ -1,62 +1,41 @@
 package tests;
 
-import java.math.BigDecimal;
-import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
-import pageMethods._addAddress;
-import pageMethods._confirmMarket;
-import pageMethods._coverageType;
-import pageMethods._myMarket;
-import pageMethods._reviewCoverage;
+
 import pageMethods._signIn;
+import pageUtilities._base;
 import pageUtilities._propMgr;
-import pageUtilities._testData;
 
-public class _smokeTests {
+public class _smokeTests extends _base {
 	
-	public static WebDriver driver;
-
-	@Test
-	public void man() {
-		String uiText = "10.10";
-		String header = "Current";
-		if((!uiText.equals("N/A") && !header.contains("Promotions"))) {
-			BigDecimal number = new BigDecimal(uiText);  
-			uiText = number.stripTrailingZeros().toPlainString();
-		}
-		System.out.println(uiText);
-		}
-	
-			
-	//@BeforeTest
-	@Parameters({"region"})
-	public void login(@Optional("US") String region)  {
-		_propMgr.getInstance();
-		
+	@BeforeClass
+    public void beforeMethod() {
+		_propMgr.getInstance(); 
 		_signIn signIn = new _signIn();
 		signIn.login();
-	}
-	
-	//@Test(priority=1)
-	public void addMarket() {
-		_myMarket addMarket = new _myMarket();
-		addMarket.addMarket();
 		
-		_addAddress address = new _addAddress(); 
-		address.addAddress("Database");
-		
-		_coverageType chooseCoverage = new _coverageType(); 
-		chooseCoverage.radius();
-		
-		_reviewCoverage reviewCoverage = new _reviewCoverage();
-		reviewCoverage.revCoverage();
-		
-		_confirmMarket cofirmMarket = new _confirmMarket();
-		cofirmMarket.confirmMarket();
-		
-		System.out.println(_testData.storeName);
-//		System.out.println(_testData.address);
-		System.out.println(_testData.userStoreId);
-	}
+        long id = Thread.currentThread().getId();
+        System.out.println("Before test-method. Thread id is: " + id);
+    }
+ 
+    @Test
+    public void testMethodsOne() {
+        long id = Thread.currentThread().getId();
+        System.out.println("Simple test-method One. Thread id is: " + id);
+    }
+ 
+    @Test
+    public void testMethodsTwo() {
+        long id = Thread.currentThread().getId();
+        System.out.println("Simple test-method Two. Thread id is: " + id);
+    }
+ 
+    @AfterClass
+    public void afterMethod() {
+    	_base.driver.quit();
+    	
+        long id = Thread.currentThread().getId();
+        System.out.println("After test-method. Thread id is: " + id);
+    }
 	
 }

@@ -1,5 +1,6 @@
 package objRepository;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -12,16 +13,16 @@ public class _signInPage {
 		PageFactory.initElements(_base.driver, this);
 	}
 	
-	protected String loading = "div.loading";
+	protected By loader = By.cssSelector("div.loading");
 	
 	@FindBy(id="usernme")
-	public WebElement $username;
+	protected WebElement $username;
 	
 	@FindBy(id="pass")
-	public WebElement $password;
+	protected WebElement $password;
 	
 	@FindBy(id="btn")
-	public WebElement $loginBtn;
+	protected WebElement $loginBtn;
 
 
 }

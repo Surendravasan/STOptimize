@@ -9,17 +9,17 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.TreeSet;
 
-public class _dbConn {
+public class _databaseUtils {
 	
-	private static _dbConn instance;
+	private static _databaseUtils instance;
 	private static final Object lock = new Object();
 	public static Connection con;
 	public static Statement st;
 	
-	public static _dbConn getInstance() {
+	public static _databaseUtils getInstance() {
 		if (instance == null) {
 			synchronized (lock) {
-				instance = new _dbConn();
+				instance = new _databaseUtils();
 				instance.openDbConn();
 			}
 		}
@@ -145,8 +145,8 @@ public class _dbConn {
 	public static int getIntValue(String query) {
 		int value = 0;
 		try {
-			_dbConn.st = _dbConn.con.createStatement();
-			ResultSet rs = _dbConn.st.executeQuery(query);
+			_databaseUtils.st = _databaseUtils.con.createStatement();
+			ResultSet rs = _databaseUtils.st.executeQuery(query);
 			while(rs.next()) {
 				value = rs.getInt(1);
 			}
@@ -159,8 +159,8 @@ public class _dbConn {
 	public static Float getFloatValue(String query) {
 		Float db = null;
 		try {
-			_dbConn.st = _dbConn.con.createStatement();
-			ResultSet rs = _dbConn.st.executeQuery(query);
+			_databaseUtils.st = _databaseUtils.con.createStatement();
+			ResultSet rs = _databaseUtils.st.executeQuery(query);
 			while(rs.next()) {
 				db = rs.getFloat(1);
 			}
@@ -172,17 +172,19 @@ public class _dbConn {
 	
 	
 	public static String getStringValue(String query) {
-		String db = null;
+		String db = "";
+		String s = "";
 		try {
-			_dbConn.st = _dbConn.con.createStatement();
-			ResultSet rs = _dbConn.st.executeQuery(query);
+			_databaseUtils.st = _databaseUtils.con.createStatement();
+			ResultSet rs = _databaseUtils.st.executeQuery(query);
 			while(rs.next()) {
 				db = rs.getString(1);
+				s = s+" "+db;
 			}
 		} catch (Exception e) {
 			System.out.println("getSingleValue: Database Connection Failed "+e);
 		}
-		return db;
+		return s.trim();
 	}
 	
 }

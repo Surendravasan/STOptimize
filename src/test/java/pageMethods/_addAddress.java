@@ -3,19 +3,14 @@ package pageMethods;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
 import objRepository._addAddressPopup;
-import pageUtilities._actions;
 import pageUtilities._base;
-import pageUtilities._dateTime;
-import pageUtilities._dbConn;
-import pageUtilities._excelReader;
-import pageUtilities._randGen;
+import pageUtilities._databaseUtils;
+import pageUtilities._excelUtils;
 import pageUtilities._testData;
-import pageUtilities._wait;
+import pageUtilities._utils;
 
 public class _addAddress extends _addAddressPopup {
 	
@@ -32,44 +27,41 @@ public class _addAddress extends _addAddressPopup {
 	public void addAddress(String source) {
 		
 		/*	Step 1: Add Address  */
-		_wait.inVisibleCss(loading, 60);
-		_wait.clickable($marketName, 10);
+		_utils.waitForElementInVisibleByLocator(loader);
+		_utils.waitForElementClickable($marketName);
 		
 		do {
 			getStoreDetails(source);
 			
-			storeName = map.get("storename")+" ("+_dateTime.getDateTime()+")";
-			_actions.sendKeys($marketName, storeName);
-			_actions.sendKeys($addressLine1, map.get("address"));
-			_actions.sendKeys($city, map.get("city"));
+			storeName = map.get("storename")+" ("+_utils.getDateTime()+")";
+			_utils.fillData($marketName, storeName);
+			_utils.fillData($addressLine1, map.get("address"));
+			_utils.fillData($city, map.get("city"));
 			
 			if((_testData.regId)!=3) {
 				state = map.get("state");
-				List<WebElement> options = _base.driver.findElements(By.xpath("//select[@name='state']/option"));
+				List<WebElement> stateList = _base.driver.findElements(By.xpath("//select[@name='state']/option"));
 
-				for (WebElement option : options) {
-					String value = option.getAttribute("value");
-				    if (value.toLowerCase().startsWith(state.toLowerCase())) {
-				        option.click();
+				for (WebElement stateLists : stateList) {
+					String listValue = stateLists.getAttribute("value");
+				    if (listValue.toLowerCase().startsWith(state.toLowerCase())) {
+				    	stateLists.click();
 				        break;
 				    }
 				}
 			}
 		
-			_actions.sendKeys($zipCode, map.get("zipcode"));
-			_actions.click($saveAddress);
+			_utils.fillData($zipCode, map.get("zipcode"));
+			_utils.submit($saveAddress);
 		
-			_wait.inVisibleCss(loading, 30);
+			_utils.waitForElementInVisibleByLocator(loader);
 			popupDisplay = $addrNotFound.size(); 
 			if(popupDisplay==1) 
-				_actions.click($addrNotFoundX);
+				_utils.submit($addrNotFoundX);
 			} while(popupDisplay==1);
 		
 		_testData.setStoreId(Integer.valueOf(map.get("storeid")));
 		_testData.setStoreName(storeName);
-//		System.out.println("-------------------------");
-//		System.out.println("Add address Success");
-		
 	}
 
 	private void getStoreDetails(String source) {
@@ -85,13 +77,13 @@ public class _addAddress extends _addAddressPopup {
 	
 	private void getStoreDb() {
 		String storeList = "select storeid from stores with (nolock) where storemodflag !=3 and regionid = "+_testData.regId;
-		ArrayList<Integer> ls = _dbConn.getRowValues(storeList);
-		String storeInfo = "select storeid, storename, address, city, state, zipcode from stores with (nolock) where storeid = " +ls.get(_randGen.getRandNumber(ls.size()));
-		map = _dbConn.getColumnValues(storeInfo);
+		ArrayList<Integer> ls = _databaseUtils.getRowValues(storeList);
+		String storeInfo = "select storeid, storename, address, city, state, zipcode from stores with (nolock) where storeid = " +ls.get(_utils.getRandNumber(ls.size()));
+		map = _databaseUtils.getColumnValues(storeInfo);
 	}
 	
 	private void getStoreEx() {
-		map = _excelReader.exStore;
+		map = _excelUtils.exStore;
 	}
 	
 }

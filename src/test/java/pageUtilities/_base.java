@@ -18,7 +18,7 @@ public class _base {
 	public static WebDriver driver;
 	public static ExtentHtmlReporter htmlReporter;
     public static ExtentReports report;
-    public static ExtentTest logger;
+    public static ExtentTest test;
 	
 	@BeforeTest
 	public void openBrowser() {
@@ -44,17 +44,18 @@ public class _base {
     {
         if(result.getStatus() == ITestResult.FAILURE)
         {
-        	logger.log(Status.FAIL, MarkupHelper.createLabel(result.getName()+" Test case FAILED due to below issues:", ExtentColor.RED));
-        	logger.fail(result.getThrowable());
+//        	test.log(Status.FAIL, MarkupHelper.createLabel(result.getName()+" Test case FAILED due to below issues:", ExtentColor.RED));
+        	test.fail(result.getThrowable());
         }
         else if(result.getStatus() == ITestResult.SUCCESS)
         {
-        	logger.log(Status.PASS, MarkupHelper.createLabel(result.getName()+" Test Case PASSED", ExtentColor.GREEN));
+//        	test.log(Status.PASS, MarkupHelper.createLabel(result.getName()+" Test Case PASSED", ExtentColor.GREEN));
+        	System.out.println("Passed");
         }
         else
         {
-        	logger.log(Status.SKIP, MarkupHelper.createLabel(result.getName()+" Test Case SKIPPED", ExtentColor.ORANGE));
-        	logger.skip(result.getThrowable());
+        	test.log(Status.SKIP, MarkupHelper.createLabel(result.getName()+" Test Case SKIPPED", ExtentColor.ORANGE));
+        	test.skip(result.getThrowable());
         }
     }
 	
@@ -65,6 +66,5 @@ public class _base {
 		report.flush();
 		driver.quit();
 	}
-			
-
+	
 }

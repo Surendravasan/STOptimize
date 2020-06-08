@@ -14,27 +14,30 @@ public class _coverageTypePopup {
 		PageFactory.initElements(_base.driver, this);
 	}
 	
-	protected String loading = "div.loading";
+	protected By loader = By.cssSelector("div.loading");
+	
+	@FindBy(css="div.loading")
+	protected WebElement $loading;
 	
 	@FindBy(css="button[class*='add']")
-	public WebElement $addMarket;
+	protected WebElement $addMarket;
 	
 	/*	Step 2: Choose Coverage Type  */
 //	@FindBy(css="button[type=submit]")
 	@FindBy(xpath="//div[contains(text(),'coverage')]/ancestor::form//span[contains(text(),'Save')]")
-	public WebElement $saveCoverage;
+	protected WebElement $saveCoverage;
 	
 	@FindBy(xpath="//span[contains(@class,'slider')]")
-	public WebElement $slider;
+	protected WebElement $slider;
 	
 	@FindBy(xpath="//span[contains(@class,'slider')]/span[contains(@class,'markActive')]")
-	public List<WebElement> $sliderPoints;
+	protected List<WebElement> $sliderPoints;
 		
-	public WebElement $radius(WebDriver driver, int nth) {
+	protected WebElement $radius(WebDriver driver, int nth) {
 		return driver.findElement(By.xpath("//span[contains(@class,'slider')]/span[contains(@class,'markLabel')][text()="+nth+"]"));
 	}
 	
-	public WebElement $selectMiles(WebDriver driver, int nth) {
+	protected WebElement $selectMiles(WebDriver driver, int nth) {
 		return driver.findElement(By.xpath("//span[contains(@class,'slider')]/span[contains(@class,'markLabel')][text()="+nth+"]"));
 	}
 

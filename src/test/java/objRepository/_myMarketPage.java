@@ -13,17 +13,19 @@ public class _myMarketPage {
 		PageFactory.initElements(_base.driver, this);
 	}
 	
-	protected String loading = "div.loading";
+	protected By loader = By.cssSelector("div.loading");
 	protected String dashboard = "td[class*='market-name'] a[href*='";
 	protected String $marketsTable = "div[class*='table']";
-	
+	protected By $tableData = By.cssSelector("table tbody tr");
+	protected By $addMarketLabel = By.cssSelector("button[class*='add']");
+
 	@FindBy(css="button[class*='add']")
-	public WebElement $addMarket;
+	protected WebElement $addMarketBtn;
 	
 	@FindBy(css="div.drag-view h5 span")
-	public WebElement $unitName;
+	protected WebElement $unitName;
 	
-	public WebElement $dashboardLink(WebDriver driver, int userStoreId) {
-		return driver.findElement(By.cssSelector("td[class*='market-name'] a[href*='"+userStoreId+"'"));
+	protected WebElement $dashboardLink(WebDriver driver, int userStoreId) {
+		return driver.findElement(By.cssSelector("td[class*='market-name'] a[href$='"+userStoreId+"']"));
 	}
 }

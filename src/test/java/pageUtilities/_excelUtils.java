@@ -11,7 +11,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
-public class _excelReader {
+public class _excelUtils {
 	
 	
 	static String filePath = "test-input/storesList.xls";
@@ -38,7 +38,7 @@ public class _excelReader {
 		Boolean boo;
 		do {
 			sh = wb.getSheet("input");
-			int randomRow = _randGen.getRandNumber(sh.getLastRowNum());
+			int randomRow = _utils.getRandNumber(sh.getLastRowNum());
 			exStore = new HashMap<String, String>();
 			DataFormatter format = new DataFormatter();
 			for(int i=0; i<=sh.getRow(0).getLastCellNum()-1; i++) {
@@ -65,7 +65,7 @@ public class _excelReader {
 		int rowCount = sh.getLastRowNum();
 		ArrayList<String> ls = new ArrayList<String>();
 		for (int i=1; i<=rowCount; i++) {
-			String cellValue = format.formatCellValue(_excelReader.sh.getRow(i).getCell(0));
+			String cellValue = format.formatCellValue(_excelUtils.sh.getRow(i).getCell(0));
 			ls.add(i-1, cellValue);
 		}
 		Boolean boo = ls.contains(storeId);

@@ -1,8 +1,7 @@
 package pageMethods;  
 
 import objRepository._reviewCoveragePopup;
-import pageUtilities._actions;
-import pageUtilities._wait;
+import pageUtilities._utils;
 
 public class _reviewCoverage extends _reviewCoveragePopup {
 	
@@ -11,14 +10,10 @@ public class _reviewCoverage extends _reviewCoveragePopup {
 	}
 	
 	public void revCoverage() {
-		
-		System.out.println("Coverage Type Success");
-		
 		/*	Step 3: Review Coverage  */
-		_wait.inVisibleCss(loading, 60);
-		_wait.clickable($saveRevCoverage, 10);
-		_actions.click($saveRevCoverage);
-		_wait.inVisibleCss(loading, 60);
-//		System.out.println("Review Coverage Success");
+		_utils.waitForElementInVisibleByLocator(loader);
+		_utils.waitForElementClickable($saveRevCoverage);
+		_utils.submit($saveRevCoverage);
+		_utils.waitForElementInVisibleByLocator(loader);
 	}
 }

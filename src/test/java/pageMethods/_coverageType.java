@@ -1,11 +1,9 @@
 package pageMethods;  
 
 import objRepository._coverageTypePopup;
-import pageUtilities._actions;
 import pageUtilities._base;
-import pageUtilities._randGen;
 import pageUtilities._testData;
-import pageUtilities._wait;
+import pageUtilities._utils;
 
 public class _coverageType extends _coverageTypePopup {
 	
@@ -14,14 +12,15 @@ public class _coverageType extends _coverageTypePopup {
 	}
 	
 	public void radius(int radius) {
-		_wait.inVisibleCss(loading, 60);
+		_utils.waitForElementInVisibleByLocator(loader);
+		
 		
 		if(radius!=0) {
 			if(radius!=10) {
-				_actions.click($radius(_base.driver, radius));
-				_wait.inVisibleCss(loading, 20);
+				_utils.submit($radius(_base.driver, radius));
+				_utils.waitForElementInVisibleByLocator(loader);
 			}
-			_actions.click($saveCoverage);
+			_utils.submit($saveCoverage);
 			
 		}
 			else {
@@ -31,14 +30,14 @@ public class _coverageType extends _coverageTypePopup {
 	}
 	
 	public void radius() {
-		_wait.inVisibleCss(loading, 20);
-		int i = _randGen.getRandNumber($sliderPoints.size());
+		_utils.waitForElementInVisibleByLocator(loader);
+		int i = _utils.getRandNumber($sliderPoints.size());
 		if (i!=10) {
-			_actions.click($selectMiles(_base.driver, i));
-			_wait.inVisibleCss(loading, 20);
+			_utils.submit($selectMiles(_base.driver, i));
+			_utils.waitForElementInVisibleByLocator(loader);
 		}
 		_testData.setRadius(i);
-		_actions.click($saveCoverage);
+		_utils.submit($saveCoverage);
 	}
 	
 }

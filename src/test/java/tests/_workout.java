@@ -1,92 +1,77 @@
  package tests;
 
-import org.openqa.selenium.By;
 import org.testng.annotations.*;
-import pageMethods._currentPricingAnalysis;
-import pageMethods._myMarket;
+import com.aventstack.extentreports.ExtentTest;
 import pageMethods._signIn;
 import pageUtilities._base;
-import pageUtilities._dbConn;
-import pageUtilities._excelReader;
+import pageUtilities._databaseUtils;
+import pageUtilities._excelUtils;
 import pageUtilities._propMgr;
-import pageUtilities._wait;
-
 
 public class _workout extends _base {
-	
+	public static ExtentTest test;
 	
 	@BeforeTest
 	public void login()  {
-		_propMgr.getInstance();
-		_dbConn.getInstance();
+		_propMgr.getInstance(); 
+		_databaseUtils.getInstance();
+		_excelUtils.openExcel();
+		_excelUtils.getStore();
 		
 		_signIn signIn = new _signIn();
 		signIn.login();
-	}   
-	
-	@Test
-	public void dashboard() {
-		
-		_myMarket obj1 = new _myMarket();
-		obj1.gotoDashboard(146019);
-		
-//		_wait.inVisibleCss("div.loading", 60);
-//		
-//		WebDriverWait wait = new WebDriverWait(_base.driver, 60);
-//		wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("button[class*='add']")));
-//		
-//		
-//		_myMarket my = new _myMarket();
-//		my.gotoDashboard(_testData.userStoreId);
-		
-		_base.driver.findElement(By.xpath("//span[text()='5x5 Reg']//ancestor::div[@class='drag-view']//div[@class='view-Details']//a")).click();
-		_wait.inVisibleCss("div.loading", 60);
-		
-		_currentPricingAnalysis cp = new _currentPricingAnalysis();
-		cp.OverviewHeader();
-		
-		cp.AllMarketView();
-		
-		
 	}
 	
-//	@AfterTest
+	
+	 @Test
+	    public void testMethodsOne() {
+	        long id = Thread.currentThread().getId();
+	        System.out.println("Simple test-method One. Thread id is: " + id);
+	    }
+	 
+	    @Test
+	    public void testMethodsTwo() {
+	        long id = Thread.currentThread().getId();
+	        System.out.println("Simple test-method Two. Thread id is: " + id);
+	    }
+	 
+	    @AfterMethod
+	    public void afterMethod() {
+	        long id = Thread.currentThread().getId();
+	        System.out.println("After test-method. Thread id is: " + id);
+	    }
+	
+	@AfterTest
 	public void closeInstance() {
-		if(_dbConn.st!=null){
+		if(_databaseUtils.st!=null){
 			try{
-				_dbConn.st.close();
+				_databaseUtils.st.close();
 			} catch (Exception e) {}
 		}
 		
-		if(_dbConn.con!=null){
+		if(_databaseUtils.con!=null){
 			try{
-				_dbConn.con.close();
+				_databaseUtils.con.close();
 			} catch (Exception e) {}
 		}
 		
-		if(_excelReader.fis!=null){
+		if(_excelUtils.fis!=null){
 			try{
-				_excelReader.fis.close();
+				_excelUtils.fis.close();
 			} catch (Exception e) {}
 		}
 		
-		if(_excelReader.fos!=null){
+		if(_excelUtils.fos!=null){
 			try{
-				_excelReader.fos.close();
+				_excelUtils.fos.close();
 			} catch (Exception e) {}
 		}
 		
-		if(_excelReader.wb!=null){
+		if(_excelUtils.wb!=null){
 			try{
-				_excelReader.wb.close();
+				_excelUtils.wb.close();
 			} catch (Exception e) {}
 		}
-		
+		_base.driver.quit();
 	}
-	
 }
-	
-	
-	
-
- 

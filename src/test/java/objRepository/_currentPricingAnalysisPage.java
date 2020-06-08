@@ -1,5 +1,7 @@
 package objRepository;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -13,7 +15,7 @@ public class _currentPricingAnalysisPage {
 		PageFactory.initElements(_base.driver, this);
 	}
 	
-	protected String loading = "div.loading";
+	protected By loader = By.cssSelector("div.loading");
 	
 	/* Overview Header */
 	
@@ -36,9 +38,43 @@ public class _currentPricingAnalysisPage {
 	protected WebElement $curHighestStore;
 	
 	
-	protected WebElement $unitStoresOffered(WebDriver driver, int nth) {
-		return driver.findElement(By.xpath("(//div[@class='drag-view'])["+nth+"]/p"));
+	protected WebElement $breadcrumbDashboard(WebDriver driver, int userStoreId) {
+		return driver.findElement(By.cssSelector("li[class*='Breadcrumbs'] a[href*='"+userStoreId+"']"));
 	}
+	
+	
+	
+	/* All Markets View */
+	
+//	@FindBy(xpath="//table[contains(@class,'market-table')]/tbody/tr/td[contains(text(),'no competitors available')]")
+//	protected WebElement $tableData1;
+	
+	protected By $tableData = By.xpath("//table[contains(@class,'market-table')]/tbody/tr/td[contains(text(),'no competitors available')]");
+	
+	@FindBy(xpath="//table[contains(@class,'market-table')]/tbody/tr")
+	protected List<WebElement> $rowCount;
+	
+	@FindBy(xpath="//table[contains(@class,'market-table')]/tbody/tr[1]/td")
+	protected List<WebElement> $colCount;
+	
+	protected WebElement $storeName(WebDriver driver, int rowNo) {
+		return driver.findElement(By.xpath("//table[contains(@class,'market-table')]/tbody/tr["+rowNo+"]/td[1]/span[1]"));
+	}
+	
+	protected WebElement $storeAddress(WebDriver driver, int rowNo) {
+		return driver.findElement(By.xpath("//table[contains(@class,'market-table')]/tbody/tr["+rowNo+"]/td[1]/span[2]"));
+	}
+	
+	protected WebElement $storeData(WebDriver driver, int rowNo, int colNo) {
+		return driver.findElement(By.xpath("//table[contains(@class,'market-table')]/tbody/tr["+rowNo+"]/td["+colNo+"]"));
+	}
+	
+	protected WebElement $storeDataPromo(WebDriver driver, int rowNo, int colNo) {
+		return driver.findElement(By.xpath("//table[contains(@class,'market-table')]/tbody/tr["+rowNo+"]/td["+colNo+"]/div/span/span[1]"));
+	}
+	
+	
+	
 	
 	
 	

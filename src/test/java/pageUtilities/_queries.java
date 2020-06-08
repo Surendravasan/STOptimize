@@ -28,13 +28,13 @@ public class _queries {
 			query = "select UnitType, ID from DefaultUnitSizes where RegionId = 4 and id between 59 and 68";
 			break;
 		}
-		map1 = _dbConn.getRowColumn(query);
+		map1 = _databaseUtils.getRowColumn(query);
 		
 		return map1.get(unitName);
 	}
 	
 	
-	static Date maxDatePrice = _dbConn.getDate("select DatePrice from MaxDatePrice");
+	static Date maxDatePrice = _databaseUtils.getDate("select DatePrice from MaxDatePrice");
 	
 	
 	
@@ -106,8 +106,13 @@ public class _queries {
 	
 	/* Queries - Current Pricing Analysis (All Market View) */
 	
-	public static String storeIdFromAddress(String fullAddress) {
+	public static String storeIdFromAddressNonUK(String fullAddress) {
 		String query = "select StoreID from stores where storemodflag != 3 and (address+', '+city+', '+state+' '+ZipCode) = '"+fullAddress+"'";
+		return query;
+	}
+	
+	public static String storeIdFromAddressUK(String fullAddress) {
+		String query = "select StoreID from stores where storemodflag != 3 and (address+', '+city+' '+ZipCode) = '"+fullAddress+"'";
 		return query;
 	}
 	
@@ -116,8 +121,18 @@ public class _queries {
 		return query;
 	}
 	
+	public static String currentPremiumRV(int storeId) {
+		String query = "select top 1 currentPremium from (select distinct spaceid, onlineprice as currentPremium from SpacePrice with (nolock) where iscurrentprice=1 and storeid in (select StoreID from stores with (nolock) where storeid in (select storeid from userstorecompset with (nolock) where storeid = "+storeId+")) and spaceid in (select spaceid from space with (nolock) where defaultunitid in (select id from DefaultUnitSizes with (nolock) where id=18 or (id=17 and RV=1))) and iscurrentPrice = 1 and onlineprice between 2 and 999) as temp order by currentPremium desc";
+		return query;
+	}
+	
 	public static String currentValue(int storeId, String unitName) {
 		String query = "select top 1 currentValue from (select distinct spaceid, onlineprice as currentValue from SpacePrice with (nolock) where iscurrentprice=1 and storeid in (select StoreID from stores with (nolock) where storeid in (select storeid from userstorecompset with (nolock) where storeid = "+storeId+")) and spaceid in (select spaceid from space with (nolock) where defaultunitid in (select id from DefaultUnitSizes with (nolock) where id = "+getUnitID(unitName)+"))) as temp order by currentValue";
+		return query;
+	}
+	
+	public static String currentValueRV(int storeId) {
+		String query = "select top 1 currentValue from (select distinct spaceid, onlineprice as currentValue from SpacePrice with (nolock) where iscurrentprice=1 and storeid in (select StoreID from stores with (nolock) where storeid in (select storeid from userstorecompset with (nolock) where storeid = "+storeId+")) and spaceid in (select spaceid from space with (nolock) where defaultunitid in (select id from DefaultUnitSizes with (nolock) where id=18 or (id=17 and RV=1))) and iscurrentPrice = 1 and onlineprice between 2 and 999) as temp order by currentValue";
 		return query;
 	}
 	
@@ -127,9 +142,19 @@ public class _queries {
 		return query;
 	}
 	
+	public static String highestPremiumRV(int storeId) {
+		String query = "select top 1 highestPremium from (select distinct SpaceID, onlineprice as highestPremium from SpacePrice with (nolock) where storeid in (select StoreID from stores with (nolock) where storeid in (select storeid from userstorecompset with (nolock) where storeid = "+storeId+")) and dateprice >= (SELECT DATEADD(DAY, -5, '2019-09-25')) and spaceid in (select spaceid from space with (nolock) where defaultunitid in (select id from DefaultUnitSizes with (nolock) where id=18 or (id=17 and RV=1))) and iscurrentPrice = 1 and onlineprice between 2 and 999) as temp order by highestPremium desc";
+		return query;
+	}
+	
 	//max date
 	public static String lowestValue(int storeId, String unitName) {
 		String query = "select top 1 lowestValue from (select distinct SpaceID, onlineprice as lowestValue from SpacePrice with (nolock) where storeid in (select StoreID from stores with (nolock) where storeid in (select storeid from userstorecompset with (nolock) where storeid = "+storeId+")) and dateprice >= (SELECT DATEADD(DAY, -5, '"+maxDatePrice+"')) and spaceid in (select spaceid from space with (nolock) where defaultunitid in (select id from DefaultUnitSizes with (nolock) where id = "+getUnitID(unitName)+"))) as temp order by lowestValue";
+		return query;
+	}
+	
+	public static String lowestValueRV(int storeId) {
+		String query = "select top 1 lowestValue from (select distinct SpaceID, onlineprice as lowestValue from SpacePrice with (nolock) where storeid in (select StoreID from stores with (nolock) where storeid in (select storeid from userstorecompset with (nolock) where storeid = "+storeId+")) and dateprice >= (SELECT DATEADD(DAY, -5, '2019-09-25')) and spaceid in (select spaceid from space with (nolock) where defaultunitid in (select id from DefaultUnitSizes with (nolock) where id=18 or (id=17 and RV=1))) and iscurrentPrice = 1 and onlineprice between 2 and 999) as temp order by lowestValue";
 		return query;
 	}
 	
@@ -139,8 +164,18 @@ public class _queries {
 		return query;
 	}
 	
+	public static String promotionsRV(int storeId) {
+		String query = "select distinct promo as promotions from SpacePrice with (nolock) where storeid in (select StoreID from stores with (nolock) where storeid in (select storeid from userstorecompset with (nolock) where storeid = "+storeId+")) and dateprice >= (SELECT DATEADD(DAY, -5, '"+maxDatePrice+"')) and spaceid in (select spaceid from space with (nolock) where defaultunitid in (select id from DefaultUnitSizes with (nolock) where id=18 or (id=17 and RV=1))) and iscurrentPrice = 1 and onlineprice between 2 and 999";
+		return query;
+	}
+	
 	public static String walkinPremium(int storeId, String unitName) {
 		String query = "select top 1 walkinPremium from (select distinct spaceid, regularprice as walkinPremium from SpacePrice with (nolock) where iscurrentprice=1 and storeid in (select StoreID from stores with (nolock) where storeid in (select storeid from userstorecompset with (nolock) where storeid = "+storeId+")) and spaceid in (select spaceid from space with (nolock) where defaultunitid in (select id from DefaultUnitSizes with (nolock) where id = "+getUnitID(unitName)+"))) as temp order by walkinPremium desc";
+		return query;
+	}
+	
+	public static String walkinPremiumRV(int storeId) {
+		String query = "select top 1 walkinPremium from (select distinct spaceid, regularprice as walkinPremium from SpacePrice with (nolock) where iscurrentprice=1 and storeid in (select StoreID from stores with (nolock) where storeid in (select storeid from userstorecompset with (nolock) where storeid = "+storeId+")) and spaceid in (select spaceid from space with (nolock) where defaultunitid in (select id from DefaultUnitSizes with (nolock) where id=18 or (id=17 and RV=1))) and iscurrentPrice = 1 and onlineprice between 2 and 999) as temp order by walkinPremium desc";
 		return query;
 	}
 	
@@ -149,19 +184,9 @@ public class _queries {
 		return query;
 	}
 	
-	
-	
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-	
+	public static String walkinValueRV(int storeId) {
+		String query = "select top 1 walkinValue from (select distinct spaceid, regularprice as walkinValue from SpacePrice with (nolock) where iscurrentprice=1 and storeid in (select StoreID from stores with (nolock) where storeid in (select storeid from userstorecompset with (nolock) where storeid = "+storeId+")) and spaceid in (select spaceid from space with (nolock) where defaultunitid in (select id from DefaultUnitSizes with (nolock) where id=18 or (id=17 and RV=1))) and iscurrentPrice = 1 and onlineprice between 2 and 999) as temp order by walkinValue";
+		return query;
+	}
+
 }
