@@ -1,10 +1,8 @@
 package pageMethods;  
 
 import java.math.BigDecimal;
-
 import org.jsoup.Jsoup;
 import org.openqa.selenium.By;
-
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.markuputils.ExtentColor;
@@ -36,7 +34,6 @@ public class _currentPricingAnalysis extends _currentPricingAnalysisPage {
 	public void OverviewHeader() {
 		
 		_utils.waitForElementInVisibleByLocator(loader);
-//		unitName = $unitName.getText();
 		node = node.createNode("Overview Header");
 		
 		
@@ -92,7 +89,6 @@ public class _currentPricingAnalysis extends _currentPricingAnalysisPage {
 			String storeName = $storeName(_base.driver, i).getText();
 			String address = $storeAddress(_base.driver, i).getText();
 			node.log(Status.INFO, MarkupHelper.createLabel((storeName+"<br>"+address), ExtentColor.BLUE));
-//			node.log(Status.INFO, MarkupHelper.createLabel(address, ExtentColor.BLUE));
 			String header = null;
 			int storeId;
 			if(!address.isEmpty()){
@@ -109,7 +105,6 @@ public class _currentPricingAnalysis extends _currentPricingAnalysisPage {
 				}
 				switch(j) {
 				case 2:
-//					dbValue = _dbConn.getStringValue(_queries.currentPremium(storeId, unitName)); //to add for RV
 					if(!unitName.contains("RV")){
 						dbValue = _databaseUtils.getStringValue(_queries.currentPremium(storeId, unitName));
 					}
@@ -122,42 +117,36 @@ public class _currentPricingAnalysis extends _currentPricingAnalysisPage {
 				case 3:
 					
 					dbValue = (!unitName.contains("RV")) ? _databaseUtils.getStringValue(_queries.currentValue(storeId, unitName)) : _databaseUtils.getStringValue(_queries.currentValueRV(storeId));
-//					dbValue = _dbConn.getStringValue(_queries.currentValue(storeId, unitName)); //to add for RV
 					header = "Current Value";
 					break;
 						
 				case 4:
 					dbValue = (!unitName.contains("RV")) ? _databaseUtils.getStringValue(_queries.highestPremium(storeId, unitName)) : _databaseUtils.getStringValue(_queries.highestPremiumRV(storeId));
-//					dbValue = _dbConn.getStringValue(_queries.highestPremium(storeId, unitName)); //to add for RV
 					header = "Highest Premium";
 					break;
 						
 				case 5:
 					dbValue = (!unitName.contains("RV")) ? _databaseUtils.getStringValue(_queries.lowestValue(storeId, unitName)) : _databaseUtils.getStringValue(_queries.lowestValueRV(storeId));
-//					dbValue = _dbConn.getStringValue(_queries.lowestValue(storeId, unitName)); //to add for RV
 					header = "Lowest Value";
 					break;
 						
 				case 6:
-					int morelink = _base.driver.findElements(By.xpath("//table[contains(@class,'market-table')]/tbody/tr[9]/td[6]/div/span/span[1]//a[text()='more']")).size();
+					int morelink = _base.driver.findElements(By.xpath("//table[contains(@class,'market-table')]/tbody/tr["+i+"]/td["+j+"]/div/span/span[1]//a[text()='more']")).size();
 					if(morelink==1){
-						_base.driver.findElement(By.xpath("//table[contains(@class,'market-table')]/tbody/tr[9]/td[6]/div/span/span[1]//a[text()='more']")).click();
+						_base.driver.findElement(By.xpath("//table[contains(@class,'market-table')]/tbody/tr["+i+"]/td["+j+"]/div/span/span[1]//a[text()='more']")).click();
 					}
 					uiValue = Jsoup.parse($storeDataPromo(_base.driver, i, j).getText().replace("No specials", "N/A")).text();
 					dbValue = (!unitName.contains("RV")) ? _databaseUtils.getStringValue(_queries.promotions(storeId, unitName)) : _databaseUtils.getStringValue(_queries.promotionsRV(storeId));
-//					dbValue = _dbConn.getStringValue(_queries.promotions(storeId, unitName)); //to add for RV
 					header = "Promotions";
 					break;
 						
 				case 7:
 					dbValue = (!unitName.contains("RV")) ? _databaseUtils.getStringValue(_queries.walkinPremium(storeId, unitName)) : _databaseUtils.getStringValue(_queries.walkinPremiumRV(storeId));
-//					dbValue = _dbConn.getStringValue(_queries.walkinPremium(storeId, unitName)); //to add for RV
 					header = "Current Walk-in Premium";
 					break;
 						
 				case 8:
 					dbValue = (!unitName.contains("RV")) ? _databaseUtils.getStringValue(_queries.walkinValue(storeId, unitName)) : _databaseUtils.getStringValue(_queries.walkinValueRV(storeId));
-//					dbValue = _dbConn.getStringValue(_queries.walkinValue(storeId, unitName)); //to add for RV
 					header = "Current Walk-in Value";
 					break;
 				}
@@ -174,18 +163,13 @@ public class _currentPricingAnalysis extends _currentPricingAnalysisPage {
 	}
 	
 	
-	
-	/* Common method to compare UI & DB values*/
-	/* As need to check floating values, condition is checked to get UI values.
-	 * If UI value is not N/A then get text as Floating value & if N/A assign floating value  */
-	
 	private void compareUiDbValues(String header, String uiText, String rawDbValue) {
 		
 		if((!uiText.equals("N/A") && !header.contains("Promotions"))) {
 			BigDecimal number = new BigDecimal(uiText);  
 			uiText = number.stripTrailingZeros().toPlainString();
 		}
-		String dbValue = (rawDbValue==null || rawDbValue.equalsIgnoreCase("0.0") || rawDbValue.isEmpty()) ? "N/A" : ((rawDbValue.endsWith(".0")) ? rawDbValue.replace(".0", "") : rawDbValue.substring(0));
+		String dbValue = (rawDbValue.equals("null") || rawDbValue.equalsIgnoreCase("0.0") || rawDbValue.isEmpty()) ? "N/A" : ((rawDbValue.endsWith(".0")) ? rawDbValue.replace(".0", "") : rawDbValue.substring(0));
 		if(uiText.equals(dbValue)) {
 			node.log(Status.PASS, header+" - Site:"+uiText+" DB:"+dbValue);
 		} else {
