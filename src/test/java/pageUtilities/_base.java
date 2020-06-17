@@ -4,7 +4,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
-
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
@@ -30,6 +29,10 @@ public class _base {
         htmlReporter.config().setDocumentTitle("Automation Report");
         htmlReporter.config().setReportName("StorTrack");
         htmlReporter.config().setTheme(Theme.STANDARD);
+        
+        _propMgr.getInstance(); 
+		_databaseUtils.getInstance();
+		_excelUtils.openExcel();
         
 		System.setProperty("webdriver.chrome.driver", "C:\\Surey\\Automation\\ChromeDriver\\chromedriver.exe");
 		//WebDriverManager.chromedriver().setup();

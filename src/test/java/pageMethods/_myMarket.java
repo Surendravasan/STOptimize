@@ -9,12 +9,12 @@ public class _myMarket extends _myMarketPage {
 	public _myMarket() {
 		super();
 		_utils.waitForElementInVisibleByLocator(loader);
-		_utils.waitForElementVisibleByLocator($addMarketLabel);
 		_utils.waitForElementVisibleByLocator($tableData);
 		_utils.waitForElementInVisibleByLocator(loader);
 	}
 	
 	public void addMarket() {
+		_utils.waitForElementVisibleByLocator($addMarketLabel);
 		_utils.submit($addMarketBtn);
 	}
 	

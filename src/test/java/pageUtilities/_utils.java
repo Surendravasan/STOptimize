@@ -3,6 +3,7 @@ package pageUtilities;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
@@ -48,9 +49,14 @@ public class _utils {
 	}
 	
 	
-	public static void dropDownByValue(WebElement ele, String text) {
+	public static void selectDropDownByValue(WebElement ele, String text) {
 		Select dropDown = new Select(ele);
 		dropDown.selectByValue(text);
+	}
+	
+	public static void selectDropDownByIndex(WebElement ele, int index) {
+		Select dropDown = new Select(ele);
+		dropDown.selectByIndex(index);
 	}
 	
 	
@@ -61,9 +67,24 @@ public class _utils {
 	
 	
 	public static String getDateTime() {
-		Date thisDate = new Date();
-		SimpleDateFormat dateForm = new SimpleDateFormat("ddMM'T'HHmmss");
-		return dateForm.format(thisDate);
+		Date currentDate = new Date();
+		SimpleDateFormat dateForm = new SimpleDateFormat("ddMM't'HHmmss");
+		return dateForm.format(currentDate);
+	}
+	
+	public static String getMonthYearMMYY(int year, int month, int date) {
+		Date currentDate = new Date();
+		SimpleDateFormat dateForm = new SimpleDateFormat("MMYY");
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(currentDate);
+		
+		cal.add(Calendar.YEAR, year);
+		cal.add(Calendar.MONTH, month);
+		cal.add(Calendar.DATE, date);
+		
+		Date nextMonth = cal.getTime();
+		return dateForm.format(nextMonth);
 	}
 	
 	

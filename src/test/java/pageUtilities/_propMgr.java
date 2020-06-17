@@ -9,6 +9,7 @@ public class _propMgr {
 	private static final Object lock = new Object();
 	private static String propertyFilePath = "config.properties";
 	private static String site;
+	private static String newUser;
 	
 	public static String baseUrl;
 	private static String username;
@@ -54,6 +55,7 @@ public class _propMgr {
 		}
 
 		site = prop.getProperty("environment");
+		newUser = prop.getProperty("newAccount");
 
 		stgUsUser = prop.getProperty("stgUsUser");
 		stgUkUser = prop.getProperty("stgUkUser");
@@ -73,6 +75,10 @@ public class _propMgr {
 		nzUser = prop.getProperty("nzUser");
 		nzPwd = prop.getProperty("nzPwd");
 	}
+	
+	public static String getNewUser() {
+		return newUser; 
+	}
 
 	public static String getUrl() {
 			if(site.contains("staging")) { 
@@ -81,6 +87,43 @@ public class _propMgr {
 				baseUrl = "https://www.stortrack.com";
 			}
 			return baseUrl;
+	}
+	
+	
+	public static String getSignupUrl() {
+		String url = "";
+		if(site.contains("staging")) {
+			switch(_testData.regId) {
+			case 1:
+				url = "https://stgus.stortrack.com/";
+				break;
+			case 2:
+				url = "https://stgaus.stortrack.com/";
+				break;
+			case 3:
+				url = "https://stguk.stortrack.com/";
+				break;
+			case 4:
+				url = "https://stgnzoptimize.stortrack.com/";
+				break;
+			}
+		} else {
+			switch(_testData.regId) {
+			case 1:
+				url = "https://optimize.stortrack.com/";
+				break;
+			case 2:
+				url = "https://optimizeau.stortrack.com/";
+				break;
+			case 3:
+				url = "https://optimize.stortrack.co.uk/";
+				break;
+			case 4:
+				url = "https://optimizenz.stortrack.com/";
+				break;
+			}
+		}
+		return url;
 	}
 
 	

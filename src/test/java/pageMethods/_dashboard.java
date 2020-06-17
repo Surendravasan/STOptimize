@@ -32,6 +32,7 @@ public class _dashboard extends _dashboardPage {
 		for(int i=1; i<=$preDefBoxCount.size(); i++) {
 			TreeSet<Integer> rawdbValues = new TreeSet<>();
 			String unitName = $unitName(_base.driver, i).getText();
+			System.out.println("Dashboard verification completed for: "+unitName);
 			test.log(Status.INFO, MarkupHelper.createLabel(unitName, ExtentColor.BLUE));
 			
 			/* Stores Offered */
@@ -92,7 +93,8 @@ public class _dashboard extends _dashboardPage {
 	
 	private String stringHandling(String uiText) {
 		return uiText.replace("Offered by ", "").replace(" stores", "").replace(" store", "").replace("A$", "")
-				.replace("NZ$", "").replace("$", "").replace("£", "").replace("€", "");
+				.replace("NZ$", "").replace("$", "").replace("£", "").replace("€", "")
+				.replace("*", "");
 	}
 	
 	

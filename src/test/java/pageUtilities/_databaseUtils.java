@@ -90,17 +90,15 @@ public class _databaseUtils {
 		return list;
 	}
 	
-	public static HashMap<String, Integer> getRowColumn(String query) {
-		HashMap<String, Integer> map = new HashMap<String, Integer>();
+	public static HashMap<String, String> getMapString(String query) {
+		HashMap<String, String> map = new HashMap<String, String>();
 		
 		try {
 		st = con.createStatement();
 		String selectquery = query;
-		//Executing the SQL Query and store the results in ResultSet
 		ResultSet rs = st.executeQuery(selectquery);
-		//While loop to iterate through all data and print results
 		while(rs.next()) {
-				map.put(rs.getString(1), rs.getInt(2));
+				map.put(rs.getString(1), rs.getString(2));
 		} 
 		} catch (Exception e) {
 			System.out.println("getColumnValues: Database Connection Failed "+e);
@@ -156,20 +154,6 @@ public class _databaseUtils {
 		return value;
 	}
 	
-	public static Float getFloatValue(String query) {
-		Float db = null;
-		try {
-			_databaseUtils.st = _databaseUtils.con.createStatement();
-			ResultSet rs = _databaseUtils.st.executeQuery(query);
-			while(rs.next()) {
-				db = rs.getFloat(1);
-			}
-		} catch (Exception e) {
-			System.out.println("getSingleValue: Database Connection Failed "+e);
-		}
-		return db;
-	}
-	
 	
 	public static String getStringValue(String query) {
 		String db = "";
@@ -185,6 +169,23 @@ public class _databaseUtils {
 			System.out.println("getSingleValue: Database Connection Failed "+e);
 		}
 		return s.trim();
+	}
+	
+	
+	
+	public static TreeSet<Float> getStringSet(String query) {
+		TreeSet<Float> set = new TreeSet<>();
+		
+		try {
+			_databaseUtils.st = _databaseUtils.con.createStatement();
+			ResultSet rs = _databaseUtils.st.executeQuery(query);
+			while(rs.next()) {
+				set.add(rs.getFloat(1));
+			}
+		} catch (Exception e) {
+			System.out.println("getSingleValue: Database Connection Failed "+e);
+		}
+		return set;
 	}
 	
 }
