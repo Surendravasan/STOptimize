@@ -1,5 +1,7 @@
 package pageMethods;  
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.TreeSet;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
@@ -14,7 +16,7 @@ import tests._smokeTestsExcel;
 
 public class _dashboard extends _dashboardPage {
 	
-	ExtentTest test = _smokeTestsExcel.test;
+	ExtentTest test = _base.test;
 	ExtentTest node;
 	public static String getUnitName = $unitName(_base.driver, 1).getText();;
 	
@@ -38,7 +40,7 @@ public class _dashboard extends _dashboardPage {
 			/* Stores Offered */
 			
 			if(!unitName.equalsIgnoreCase("10x25")) {
-				String uiStOff = stringHandling($unitStoresOffered(_base.driver, unitName).getText());
+				String uiStOff = repSymbolText($unitStoresOffered(_base.driver, unitName).getText());
 				if(!unitName.contains("RV"))
 					rawdbValues = _databaseUtils.getValue(_queries.dashStoresOffered(unitName));
 				else
@@ -49,7 +51,7 @@ public class _dashboard extends _dashboardPage {
 				
 				/* Average Price */
 				
- 				String uiAvgPrice = stringHandling($unitAvgPrice(_base.driver, unitName).getText());
+ 				String uiAvgPrice = repSymbolText($unitAvgPrice(_base.driver, unitName).getText());
 				if(!unitName.contains("RV"))
 					rawdbValues = _databaseUtils.getValue(_queries.dashAvgPrice(unitName));
 				else
@@ -59,7 +61,7 @@ public class _dashboard extends _dashboardPage {
 				
 				
 				/* Your Price */
-				String uiYourPrice = stringHandling($unitYourPrice(_base.driver, unitName).getText());
+				String uiYourPrice = repSymbolText($unitYourPrice(_base.driver, unitName).getText());
 				if(!unitName.contains("RV"))
 					rawdbValues = _databaseUtils.getValue(_queries.dashYourPrice(unitName));
 				else
@@ -91,18 +93,11 @@ public class _dashboard extends _dashboardPage {
 	}
 	
 	
-	private String stringHandling(String uiText) {
+	private String repSymbolText(String uiText) {
 		return uiText.replace("Offered by ", "").replace(" stores", "").replace(" store", "").replace("A$", "")
 				.replace("NZ$", "").replace("$", "").replace("£", "").replace("€", "")
 				.replace("*", "");
 	}
-	
-	
-	public void unitViewDetails(String unitName) {
-		_utils.waitForElementVisibleByLocator($unitDetails);
-		_utils.submit($unitViewDetails(_base.driver, unitName));
-	}
-	
 	
 	private void compareUiDbValues(String header, String uiText, String DbValue) {
 		if(!uiText.equals(DbValue)) {
@@ -111,5 +106,28 @@ public class _dashboard extends _dashboardPage {
 			test.log(Status.PASS, header+"Site:"+uiText+" DB:"+DbValue);
 			}
 		}
+	
+	public void unitViewDetails(String unitName) {
+		_utils.waitForElementVisibleByLocator($unitDetails);
+		_utils.submit($unitViewDetails(_base.driver, unitName));
+	}
+	
+	public void addNewUnit() {
+		_utils.clickAction($addUnit);
+	}
+	
+	
+	public List<String> getSpecificUnitValue(String unitName) {
+		String uiStOff = repSymbolText($unitStoresOffered(_base.driver, unitName).getText());
+		String uiAvgPrice = repSymbolText($unitAvgPrice(_base.driver, unitName).getText());
+		String uiYourPrice = repSymbolText($unitYourPrice(_base.driver, unitName).getText());
+		List<String> list = new LinkedList<>();
+		list.add(uiStOff);
+		list.add(uiAvgPrice);
+		list.add(uiYourPrice);
+		return list;
+	}
+	
+	
 	
 }

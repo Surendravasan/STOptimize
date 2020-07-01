@@ -74,6 +74,8 @@ public class _dashboardPage {
 		return driver.findElement(By.xpath("//span[text()='"+unit+"']//ancestor::div[@class='drag-view']//div[@class='view-Details']//a"));
 	}
 	
+	@FindBy(css="a.add-Market-Dashboard")
+	protected WebElement $addUnit;
 	
 	
 	

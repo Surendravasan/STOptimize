@@ -9,10 +9,8 @@ import com.aventstack.extentreports.markuputils.MarkupHelper;
 import pageMethods._addAddress;
 import pageMethods._confirmMarket;
 import pageMethods._coverageType;
-import pageMethods._currentPricingAnalysis;
-import pageMethods._dashboard;
 import pageMethods._myMarket;
-import pageMethods._priceVolatility;
+import pageMethods._newUnit;
 import pageMethods._reviewCoverage;
 import pageMethods._signIn;
 import pageMethods._signUp;
@@ -23,9 +21,9 @@ import pageUtilities._propMgr;
 import pageUtilities._testData;
 import pageUtilities._utils;
 
-public class _smokeTestsExcel extends _base {
+public class _addUnitTests extends _base {
 	
-	
+
 	@BeforeTest
 	public void login()  {
 		_excelUtils.getStore();
@@ -34,7 +32,7 @@ public class _smokeTestsExcel extends _base {
 			_signUp signup = new _signUp();
 			signup.singleMarket();
 		} else {
-			 _signIn signIn = new _signIn();
+			_signIn signIn = new _signIn();
 			signIn.login();
 		}
 	}  
@@ -60,45 +58,28 @@ public class _smokeTestsExcel extends _base {
 		cofirmMarket.confirmMarket();
 	}
 	
-	@Test(priority=2)
-	public void verifyDashboard() {
-		
-		_base.test = _base.report.createTest("Dashboard");
+	
+	@Test(priority=2, dependsOnMethods="addMarket")
+	public void addUnitUIVerify() {
 		
 		_myMarket gotoDash = new _myMarket();
 		gotoDash.gotoDashboard(_testData.userStoreId);
 		
-		_dashboard dash = new _dashboard();
-		dash.getAllValues();
+		_base.test = _base.report.createTest("uiVerification");
+		
+		_newUnit nu = new _newUnit();
+		nu.textValidation();
+		
 	}
 	
 	@Test(priority=3, dataProvider="unitName", dataProviderClass=_testData.class)
-	public void verifyDetails(String unitName) {
+	public void compareUnit(String unitName) {
 		
-		_dashboard dash = new _dashboard();
-		dash.unitViewDetails(unitName);
-
 		_base.test = _base.report.createTest(unitName);
-		System.out.println("View Details Started for unit: "+unitName);
-		_currentPricingAnalysis cp = new _currentPricingAnalysis(unitName);
-		cp.OverviewHeader();
-		cp.AllMarketView();
-	 	cp.currentAdvertisedRates();
-		cp.backToDashboard();
-		System.out.println("View Details Completed for unit: "+unitName);
 		
-	}
-	
-	@Test(priority=4)
-	public void priceVolatility() {
+		_newUnit nu = new _newUnit();
+		nu.clonePreDefUnits(unitName);
 		
-		_base.test = _base.report.createTest("Price Volatility");
-		System.out.println("Price Volatility Verification Started");
-		_priceVolatility pv = new _priceVolatility();
-		pv.overviewHeader();
-		pv.currentMarketVolatility();
-		pv.marketVolPriceStore();
-		System.out.println("Price Volatility Verification Completed");
 	}
 	
 	
@@ -110,13 +91,13 @@ public class _smokeTestsExcel extends _base {
         } 
 		else if(result.getStatus() == ITestResult.FAILURE) {
 			String screenShotpath = _utils.screenCapture(_base.driver);
-			_base.test.log(Status.FAIL, MarkupHelper.createLabel(result.getName()+" Test case FAILED due to below issues:", ExtentColor.RED));
-			_base.test.fail(result.getThrowable());
-			_base.test.log(Status.FAIL, "Screen Shot below: "+test.addScreenCaptureFromPath(screenShotpath));
+        	test.log(Status.FAIL, MarkupHelper.createLabel(result.getName()+" Test case FAILED due to below issues:", ExtentColor.RED));
+        	test.fail(result.getThrowable());
+        	test.log(Status.FAIL, "Screen Shot below: "+test.addScreenCaptureFromPath(screenShotpath));
         } 
 		else if(result.getStatus()==ITestResult.SKIP) {
-			_base.test.log(Status.SKIP, MarkupHelper.createLabel(result.getName()+" Test Case SKIPPED", ExtentColor.ORANGE));
-			_base.test.skip(result.getThrowable());
+			test.log(Status.SKIP, MarkupHelper.createLabel(result.getName()+" Test Case SKIPPED", ExtentColor.ORANGE));
+			test.skip(result.getThrowable());
 		}
 		_base.report.flush();
 	}

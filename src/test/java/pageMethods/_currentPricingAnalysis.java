@@ -27,7 +27,7 @@ public class _currentPricingAnalysis extends _currentPricingAnalysisPage {
 	
 	
 	public String unitName;
-	ExtentTest test = _smokeTestsExcel.test;
+	ExtentTest test = _base.test;
 	ExtentTest node;
 	
 	public _currentPricingAnalysis(String unitName) {
@@ -86,6 +86,11 @@ public class _currentPricingAnalysis extends _currentPricingAnalysisPage {
 			for(int i=1; i<=rowCount; i++) {
 				String storeName = $storeName(_base.driver, i).getText();
 				String address = $storeAddress(_base.driver, i).getText();
+				
+				/* Handles address with single quotes to execute SQL query */
+				if(address.contains("'")) {
+					   address = address.replace("'", "''");
+				   }
 				node.log(Status.INFO, MarkupHelper.createLabel((storeName+"<br>"+address), ExtentColor.BLUE));
 				String header = null;
 				int storeId;
@@ -220,7 +225,7 @@ public class _currentPricingAnalysis extends _currentPricingAnalysisPage {
 					}
 				}
 				
-				String b[] =  returnResult(_databaseUtils.getStringSet(_queries.currAdvRates(storeid, unitName)));
+				String b[] =  returnResult(_databaseUtils.getFloatSet(_queries.currAdvRates(storeid, unitName)));
 				
 				for(int i=0; i<rowCount; i++) {
 					int x = i+1;
@@ -245,38 +250,46 @@ public class _currentPricingAnalysis extends _currentPricingAnalysisPage {
 					node.log(Status.INFO, MarkupHelper.createLabel("Value", ExtentColor.BLACK));
 				}
 				
-				List<Float> tree = new LinkedList<>();
+//				List<Float> tree = new LinkedList<>();
+				List<Double> tree = new LinkedList<>();
 				for(int j=1; j<=colCount-1; j++) {
 					String text = repSymbolText(_base.driver.findElement(By.xpath("(//div[contains(@class,'online-price')]//tbody//span[text()='Premium' or text()='Value'])["+i+"]/../../td[not(contains(@class,'tablebtn'))]["+j+"]")).getText());
-					System.out.println(text);
+//					System.out.println(text);
 					if(!text.startsWith("N/A")) {
-						tree.add(Float.valueOf(text));
+//						tree.add(Float.valueOf(text));
+						tree.add(Double.parseDouble(text));
 					}
 					Collections.sort(tree);
 				}
-					System.out.println(tree);
-					Float v=0f;
-					for(Float u : tree) {
+//					System.out.println(tree);
+//					Float v=0f;
+					double v = 0;
+//					for(Float u : tree) {
+					for(double u : tree) {
 						v = v + u; 
 					}
 					v = v/tree.size();
-					System.out.println(v);
+//					System.out.println(v);
 					
 					int k = _base.driver.findElements(By.xpath("//table[@class='mss market-right-table table']/tbody/tr[1]/td")).size();
 					for(int s=1; s<=k; s++) {
-						DecimalFormat df = new DecimalFormat("0.00");
+						
 						int m=i;
 						if(i==2){
 							m=i+3;
 						}
 						String marketText = repSymbolText(_base.driver.findElement(By.xpath("//table[@class='mss market-right-table table']/tbody/tr["+m+"]/td["+s+"]")).getText());
-						System.out.println(marketText);
+//						System.out.println(marketText);
 						
 
 						if(s==1) {
 							compareUiDbValues("Market Low", marketText, repSymbolText(String.valueOf(tree.get(0))), node);
 						} else if(s==2) {
-							BigDecimal number = new BigDecimal(String.valueOf(df.format(v)));  
+//							DecimalFormat df = new DecimalFormat("0.00");
+//							System.out.println(df.format(v));
+							double roundOff = (double) Math.round(v * 100) / 100;
+//							BigDecimal number = new BigDecimal(String.valueOf(df.format(v)));  
+							BigDecimal number = new BigDecimal(String.valueOf(roundOff));
 							String avgValue = number.stripTrailingZeros().toPlainString();
 							compareUiDbValues("Market Average", marketText, avgValue, node);
 						} else if(s==3) {

@@ -3,25 +3,24 @@ package pageMethods	;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 import objRepository._confirmMarketPopup;
+import pageUtilities._base;
 import pageUtilities._excelUtils;
 import pageUtilities._propMgr;
 import pageUtilities._testData;
 import pageUtilities._utils;
-import tests._smokeTestsExcel;
 
 public class _confirmMarket extends _confirmMarketPopup {
 	
-	ExtentTest test = _smokeTestsExcel.test;;
+	ExtentTest test = _base.test;
 	
 	public _confirmMarket() {
 		super();
-//		test = _base.report.createTest("Store Details");
 	}
 	
 	public void confirmMarket() {
 		
 		/*	Step 4: Confirm Market  */  
-		_excelUtils.updateStoreId(_testData.storeId);
+		_excelUtils.setStoreProcessed();
 		
 		_utils.waitForElementVisibleByLocator($marketDashboard);
 		String userStoreId = $getUserStoreId.getAttribute("href");

@@ -9,6 +9,7 @@ import pageMethods._dashboard;
 public class _testData {
 	
 	public static int regId;
+	public static int countryId;
 	public static int storeId;
 	public static String storeName;
 	public static String address;
@@ -24,7 +25,7 @@ public class _testData {
 	public static void setRegion(String region) {
 		
 		if(region.equalsIgnoreCase("US"))
-			regId = 1;
+			regId = 1; 
 		else if (region.equalsIgnoreCase("AU"))
 			regId = 2;
 		else if (region.equalsIgnoreCase("UK"))
@@ -53,15 +54,17 @@ public class _testData {
 	
 	
 	public static void setStoreDetails(HashMap<String, String> hm) {
-		HashMap<String, String> ab = hm;
-		storeId = Integer.valueOf(ab.get("storeid"));
-		address = ab.get("address");
-		city = ab.get("city");
-		state = ab.get("state");
-		zipcode = ab.get("zipcode");
-		radius = Integer.valueOf(ab.get("radius"));
-		ab.put("regid", "");
-		regId = _databaseUtils.getIntValue("select regionid from stores where storeid = "+storeId+" and storemodflag!=3");
+		HashMap<String, String> testStore = hm;
+		storeId = Integer.valueOf(testStore.get("storeid"));
+		address = testStore.get("address");
+		city = testStore.get("city");
+		state = testStore.get("state");
+		zipcode = testStore.get("zipcode");
+		radius = Integer.valueOf(testStore.get("radius"));
+//		testStore.put("regid", "");
+//		regId = _databaseUtils.getIntValue("select regionid from stores where storeid = "+storeId+" and storemodflag!=3");
+		regId = Integer.valueOf(testStore.get("regionid"));
+		countryId = Integer.valueOf(testStore.get("countryid"));
 	}
 	
 	
@@ -73,11 +76,11 @@ public class _testData {
 		case 1:
 			if(!_dashboard.getUnitName.contains("m²"))
 			{
-//				unitNames = new Object[][] {{"5x5 Reg"}};
-				unitNames = new Object[][] {
-					{"5x5 Reg"}, {"5x5 CC"}, {"5x10 Reg"}, {"5x10 CC"}, 
-					{"10x10 Reg"}, {"10x10 CC"}, {"10x15"}, {"10x20"}, 
-					{"10x30"}, {"Car Parking"}, {"RV Parking"}};
+				unitNames = new Object[][] {{"5x5 Reg"}, {"Car Parking"}, {"RV Parking"}};
+//				unitNames = new Object[][] {
+//					{"5x5 Reg"}, {"5x5 CC"}, {"5x10 Reg"}, {"5x10 CC"}, 
+//					{"10x10 Reg"}, {"10x10 CC"}, {"10x15"}, {"10x20"}, 
+//					{"10x30"}, {"Car Parking"}, {"RV Parking"}};
 			} else {
 //				unitNames = new Object[][] {{"1mx1m"}};
 				unitNames = new Object[][] {
@@ -87,11 +90,11 @@ public class _testData {
 			break;
 			
 		case 2:
-//			unitNames = new Object[][] {{"3mx4m"}, {"3mx5m"}};
-			unitNames = new Object[][] {
-				{"3mx3m"}, {"1.5mx1.5m"}, {"3mx6m"}, {"1.5mx3m"}, 
-				{"1mx1m"}, {"3mx4.5m"}, {"1.5mx2m"}, {"2mx3m"}, 
-				{"3mx4m"}, {"3mx5m"}};
+			unitNames = new Object[][] {{"3mx6m"}, {"1.5mx1.5m"}};
+//			unitNames = new Object[][] {
+//				{"3mx3m"}, {"1.5mx1.5m"}, {"3mx6m"}, {"1.5mx3m"}, 
+//				{"1mx1m"}, {"3mx4.5m"}, {"1.5mx2m"}, {"2mx3m"}, 
+//				{"3mx4m"}, {"3mx5m"}};
 				break;
 				
 		case 3:

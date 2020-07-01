@@ -19,7 +19,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class _utils {
+ public class _utils {
 	
 	private static String letters = "abcdefghijklmnopqrstuvwxyz";
 	private static char[] alphaNumericString = (letters + letters.toUpperCase() + "0123456789").toCharArray();
@@ -59,6 +59,11 @@ public class _utils {
 		dropDown.selectByIndex(index);
 	}
 	
+	public static void selectDropDownByVisibleText(WebElement ele, String text) {
+		Select dropDown = new Select(ele);
+		dropDown.selectByVisibleText(text);
+	}
+	
 	
 	public static void clickAction(WebElement ele) {
 		Actions action = new Actions(_base.driver);
@@ -66,9 +71,15 @@ public class _utils {
 	}
 	
 	
+	public static String getDateMinddmm() {
+		Date currentDate = new Date();
+		SimpleDateFormat dateForm = new SimpleDateFormat("ddmm");
+		return dateForm.format(currentDate);
+	}
+	
 	public static String getDateTime() {
 		Date currentDate = new Date();
-		SimpleDateFormat dateForm = new SimpleDateFormat("ddMM't'HHmmss");
+		SimpleDateFormat dateForm = new SimpleDateFormat("ddMMHHmmss");
 		return dateForm.format(currentDate);
 	}
 	
@@ -96,15 +107,11 @@ public class _utils {
 		return sb.toString();
 	}
 
-	
 	public static int getRandNumber(int length) {
 
 		Random rand = new Random();
 		return rand.nextInt(length)+1;
 	}
-	
-	
-
 
 	public static void waitForElementClickable(WebElement elmt) {
 		wait.until(ExpectedConditions.elementToBeClickable(elmt));

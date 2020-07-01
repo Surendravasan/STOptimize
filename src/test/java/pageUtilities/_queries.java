@@ -213,5 +213,56 @@ public class _queries {
 		}
 		return query;
 	}
+	
+	/* Price Volatility - Overview Header */
+	public static String pvMarket() {
+		String query;
+		query = "select Round(cast(sum(case when a.Pricerangechangecount = 1 then 1 else 0 END)as float)/cast(count(a.id) as float) *100,1) as PriceVolatility from PriceChangesVolatilityDefaultUnits a with (nolock) join defaultunitsizes b on a.DefaultUnitId = b.id join stores d on a.storeid = d.storeid and a.DatePrice2 >= (SELECT DATEADD(DAY, -(DAY(DATEADD(M, -12, dateprice)) - 1), DATEADD(M, -12, dateprice))from MaxDatePrice) join UserStoreCompSet c on a.storeid = c.storeid and c.userstoreid = "+_testData.userStoreId+" and c.IsTracked = 1";
+		return query;
+	}
+	
+	public static String pvYourStore() {
+		String query;
+		query = "select Round(cast(sum(case when a.Pricerangechangecount = 1 then 1 else 0 END)as float)/cast(count(a.id) as float) *100,1) as PriceVolatility from PriceChangesVolatilityDefaultUnits a with (nolock) join defaultunitsizes b on a.DefaultUnitId = b.id join stores d on a.storeid = d.storeid and a.DatePrice2 >= (SELECT DATEADD(DAY, -(DAY(DATEADD(M, -12, dateprice)) - 1), DATEADD(M, -12, dateprice))from MaxDatePrice) join UserStoreCompSet c on a.storeid = c.storeid and c.IsTracked = 1 and a.storeid = "+_testData.storeId+"";
+		return query;
+	}
+	
+	public static String pvREIT() {
+		String query;
+		query = "select Round(cast(sum(case when a.Pricerangechangecount = 1 then 1 else 0 END)as float)/cast(count(a.id) as float) *100,1) as PriceVolatility from PriceChangesVolatilityDefaultUnits a with (nolock) join defaultunitsizes b on a.DefaultUnitId = b.id join stores d on a.storeid = d.storeid and d.REIT = 1 and a.DatePrice2 >= (SELECT DATEADD(DAY, -(DAY(DATEADD(M, -12, dateprice)) - 1), DATEADD(M, -12, dateprice))from MaxDatePrice) join UserStoreCompSet c on a.storeid = c.storeid and c.userstoreid = "+_testData.userStoreId+" and c.IsTracked = 1";
+		return query;
+	}
+	
+	public static String pvMultiOps() {
+		String query;
+		query = "select Round(cast(sum(case when a.Pricerangechangecount = 1 then 1 else 0 END)as float)/cast(count(a.id) as float)*100,1) as PriceVolatility from PriceChangesVolatilityDefaultUnits a with (nolock) join defaultunitsizes b on a.DefaultUnitId = b.id join stores d on a.storeid = d.storeid and d.MultiOperator = 1 and a.DatePrice2 >= (SELECT DATEADD(DAY, -(DAY(DATEADD(M, -12, dateprice)) - 1), DATEADD(M, -12, dateprice))from MaxDatePrice) join UserStoreCompSet c on a.storeid = c.storeid and c.IsTracked = 1 and c.userstoreid = "+_testData.userStoreId+"";
+		return query;
+	}
+	
+	public static String pvSingleOps() {
+		String query;
+		query = "select Round(cast(sum(case when a.Pricerangechangecount = 1 then 1 else 0 END)as float)/cast(count(a.id) as float) *100,1) as PriceVolatility from PriceChangesVolatilityDefaultUnits a with (nolock) join defaultunitsizes b on a.DefaultUnitId = b.id join stores d on a.storeid = d.storeid and d.SingleOperator = 1 and a.DatePrice2 >= (SELECT DATEADD(DAY, -(DAY(DATEADD(M, -12, dateprice)) - 1), DATEADD(M, -12, dateprice))from MaxDatePrice) join UserStoreCompSet c on a.storeid = c.storeid and c.userstoreid = "+_testData.userStoreId+" and c.IsTracked = 1";
+		return query;
+	}
+	
+	
+	/* Price Volatility - Current Market Volatility */
+	
+	public static String pvCurrMarketVol() {
+		String query;
+		query = "select UPPER(b.unittype), Round(cast(sum(case when a.Pricerangechangecount = 1 then 1 else 0 END)as float)/cast(count(a.id) as float) *100,2) as PriceVolatility from PriceChangesVolatilityDefaultUnits a with (nolock) join defaultunitsizes b on a.DefaultUnitId = b.id join stores d on a.storeid = d.storeid and a.DatePrice2 >= (SELECT DATEADD(DAY, -(DAY(DATEADD(M, -12, dateprice)) - 1), DATEADD(M, -12, dateprice))from MaxDatePrice) join UserStoreCompSet c on a.storeid = c.storeid and c.userstoreid = "+_testData.userStoreId+" and c.IsTracked = 1 group by b.id, b.unittype order by 1";
+		return query;
+	}
+	
+	public static String pvMarketVolPriceStore(String address) {
+		String query;
+		query = "select concat(d.address,' , ',d.city,' , ',d.state,' ',d.ZipCode) as Address, Round(cast(sum(case when a.Pricerangechangecount = 1 then 1 else 0 END)as float)/cast(count(a.id) as float) *100,2) as AllPriceVolatility, Round(cast(sum(case when a.PremiumPriceChangeCount = 1 then 1 else 0 END)as float)/cast(count(a.id) as float) *100,2) as PremiumPriceVolatility , Round(cast(sum(case when a.ValuePriceChangeCount = 1 then 1 else 0 END)as float)/cast(count(a.id) as float) *100,2) as ValuePriceVolatility from PriceChangesVolatilityDefaultUnits a with (nolock) join defaultunitsizes b on a.DefaultUnitId = b.id join stores d on a.storeid = d.storeid and a.DatePrice2 >= (SELECT DATEADD(DAY, -(DAY(DATEADD(M, -12, dateprice)) - 1), DATEADD(M, -12, dateprice)) from MaxDatePrice) join UserStoreCompSet c on a.storeid = c.storeid and c.userstoreid = "+_testData.userStoreId+" and c.IsTracked = 1 where concat(d.address,' , ',d.city,' , ',d.state,' ',d.ZipCode) like '%"+address+"%' group by concat(d.address,' , ',d.city,' , ',d.state,' ',d.ZipCode) order by 2";
+		return query;
+	}
+	
+	
+	
+	
+	
 
 }

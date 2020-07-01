@@ -7,6 +7,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.TreeSet;
 
 public class _databaseUtils {
@@ -112,11 +114,8 @@ public class _databaseUtils {
 		TreeSet<Integer> ts = new TreeSet<Integer>();
 		try {
 			st = con.createStatement();
-//			String selectquery = query;
-		
-			//Executing the SQL Query and store the results in ResultSet
 			ResultSet rs = st.executeQuery(query);
-			//While loop to iterate through all data and print results
+			
 			while(rs.next()) {
 				ts.add(rs.getInt(1));
 			}
@@ -125,6 +124,31 @@ public class _databaseUtils {
 		}
 		return ts;
 	}
+	
+	
+//	testing
+	public static List<String> getList(String query) {
+		List<String> ts = new LinkedList<>();
+		Float f = 0f;
+		try {
+			st = con.createStatement();
+//			st.setQueryTimeout(5);
+//			Stopwatch stopwatch = Stopwatch.createStarted();
+			ResultSet rs = st.executeQuery(query);
+//			stopwatch.stop();
+//			System.out.println("Time elapsed: "+ stopwatch.elapsed(TimeUnit.SECONDS));
+			while(rs.next()) {
+				f = rs.getFloat(1);
+				String s = String.valueOf(f); 
+				ts.add((s.endsWith(".0") ? s.replace(".0", "") : s.substring(0)));
+			}
+		} catch (Exception e) {
+			
+			System.out.println("getSingleValue: Database Connection Failed "+e);
+		}
+		return ts;
+	}
+	
 	
 	public static Date getDate(String query) {
 		Date d = null;
@@ -173,7 +197,7 @@ public class _databaseUtils {
 	
 	
 	
-	public static TreeSet<Float> getStringSet(String query) {
+	public static TreeSet<Float> getFloatSet(String query) {
 		TreeSet<Float> set = new TreeSet<>();
 		
 		try {
