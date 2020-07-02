@@ -74,6 +74,9 @@ public class _excelUtils {
 			String value_cell = format.formatCellValue(sh.getRow(random).getCell(i));
 			exStore.put(header_cell, value_cell);
 		}
+		String rad = exStore.get("radius");
+		if(rad.isEmpty()) 
+			exStore.replace("radius", "0");
 		System.out.println(exStore);
 	
 		_testData.setStoreDetails(exStore);
