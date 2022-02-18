@@ -23,7 +23,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 	
 	private static String letters = "abcdefghijklmnopqrstuvwxyz";
 	private static char[] alphaNumericString = (letters + letters.toUpperCase() + "0123456789").toCharArray();
-	static WebDriverWait wait = new WebDriverWait(_base.driver, 180);
+	static WebDriverWait wait = new WebDriverWait(_base.driver, 300);
 	
 	public static void fillData(WebElement element, String text) {
 		element.clear();
