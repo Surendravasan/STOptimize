@@ -39,7 +39,7 @@ public class SabarimalaBooking extends _base {
 		// "C:\\Surey\\Automation\\ChromeDriver\\chromedriver.exe");
 		// _base.driver = new ChromeDriver();
 		// _base.driver.manage().window().maximize();
-		System.out.println("Hello");
+		System.out.println("Hai");
 
 		try {
 			fis = new FileInputStream(filePath);
